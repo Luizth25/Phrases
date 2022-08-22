@@ -1,8 +1,3 @@
-export type THeaderProps = {
-  title: string;
-  image?: string;
-};
-
 export type TPhraseProps = {
   value: string;
 };

@@ -1,14 +1,18 @@
 import { DefaultTheme } from "styled-components";
 
-type TFontStyle = {
+type TFontStyleProps = {
   fontSize: number;
   fontWeight: number;
 };
 
+type TThemeFontStyles = {
+  [key in "title" | "paragraph"]: TFontStyleProps;
+};
+
 declare module "styled-components" {
   export interface DefaultTheme {
-    colors: { [key in keyof typeof themeColors]: string };
-    fontStyles: { [key in keyof typeof themeFontStyles]: TFontStyle };
+    colors: typeof themeColors;
+    fontStyles: typeof themeFontStyles;
   }
 }
 
@@ -16,10 +20,10 @@ const themeColors = {
   componentColor: "#1f1f1f",
   fontColor: "#efefef",
   headerBgColor: "#0D0D0D",
-  backgroud: "#1A1919",
+  background: "#1A1919",
 };
 
-const themeFontStyles = {
+const themeFontStyles: TThemeFontStyles = {
   title: {
     fontSize: 40,
     fontWeight: 500,
