@@ -5,8 +5,4 @@ export const HeaderContainer = styled.header`
   justify-content: center;
   padding: 20px;
   background-color: ${({ theme }) => theme.colors.headerBgColor};
-
-  h1 {
-    ${({ theme }) => theme.fontStyles.title}
-  }
 `;

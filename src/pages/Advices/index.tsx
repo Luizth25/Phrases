@@ -1,24 +1,32 @@
 import { useState } from "react";
 
-import EventButton from "../../components/EventButton";
-import HomeButton from "../../components/HomeButton";
-import Header from "../../components/Header";
-import { AdviceApi } from "../../services/api";
+import EventButton from "components/EventButton";
+import HomeButton from "components/HomeButton";
+import Header from "components/Header";
+import { api, advicesPath } from "services/api";
+import { TPhraseProps } from "types";
+
 import { Container } from "./styles";
-import { TPhraseProps } from "../../types/";
 import { RawAdvicesProps } from "./type";
 
-const Advices = () => {
+const Advices: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  ...rest
+}): JSX.Element => {
   const [advices, setAdvices] = useState<TPhraseProps>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getAdvices = () => {
-    AdviceApi.get<RawAdvicesProps>("/advice")
+    setIsLoading(true);
+
+    api
+      .get<RawAdvicesProps>(`${advicesPath}/advice`)
       .then((response) =>
         setAdvices({
           value: response.data.slip.advice,
         })
       )
-      .catch((err) => err);
+      .catch((err) => err)
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -26,14 +34,19 @@ const Advices = () => {
       <Header
         title="Advice"
         image="https://64.media.tumblr.com/43a1e8204f611fc2f9ffd9eccc7a455e/tumblr_mwno2t6dys1rfjowdo1_500.gif"
+        {...rest}
       />
       <HomeButton />
       <Container>
-        <EventButton
-          onClick={getAdvices}
-          title={"phrase"}
-          value={advices?.value ?? ""}
-        />
+        {isLoading ? (
+          <p>loading...</p>
+        ) : (
+          <EventButton
+            onClick={getAdvices}
+            title="phrase"
+            value={advices?.value ?? ""}
+          />
+        )}
       </Container>
     </>
   );

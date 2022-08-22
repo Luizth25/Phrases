@@ -1,6 +1,7 @@
+import { TEventButtonProps } from "types";
+
 import { Phrase } from "./styles";
 import * as s from "./styles";
-import { TEventButtonProps } from "../../types";
 
 const EventButton = ({ onClick, title, value }: TEventButtonProps) => (
   <>
